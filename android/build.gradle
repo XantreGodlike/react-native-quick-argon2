@@ -1,138 +1,135 @@
 import java.nio.file.Paths
 
-buildscript {
+static def findNodeModules(baseDir) {
+  def basePath = baseDir.toPath().normalize()
+  // Node's module resolution algorithm searches up to the root directory,
+  // after which the base path will be null
+  while (basePath) {
+    def nodeModulesPath = Paths.get(basePath.toString(), "node_modules")
+    def reactNativePath = Paths.get(nodeModulesPath.toString(), "react-native")
+    if (nodeModulesPath.toFile().exists() && reactNativePath.toFile().exists()) {
+      return nodeModulesPath.toString()
+    }
+    basePath = basePath.getParent()
+  }
+  throw new GradleException("QuickArgon2: Failed to find node_modules/ path!")
+}
 
+def nodeModules = findNodeModules(projectDir)
+logger.warn("QuickArgon2: node_modules/ found at: ${nodeModules}")
+
+buildscript {
   repositories {
     google()
-    mavenCentral()
-
+    jcenter()
     maven {
       url "https://plugins.gradle.org/m2/"
     }
   }
+
   dependencies {
-    classpath 'com.android.tools.build:gradle:4.2.1'
+    classpath 'com.android.tools.build:gradle:4.2.2'
   }
 }
 
 apply plugin: 'com.android.library'
 
-def getExtOrDefault(name, defaultValue) {
-  return rootProject.ext.has(name) ? rootProject.ext.get(name) : defaultValue
+def getExtOrDefault(name) {
+  return rootProject.ext.has(name) ? rootProject.ext.get(name) : project.properties['QuickArgon2_' + name]
 }
 
-def found = false
-def basePath = projectDir.toPath().normalize()
-
-// Find node_modules inside the example project
-def nodeModulesDir = Paths.get(basePath.getParent().toString(), "example/node_modules")
-def reactNativeDir = Paths.get(nodeModulesDir.toString(), "react-native/android")
-if (nodeModulesDir.toFile().exists() && reactNativeDir.toFile().exists()) {
-  found = true
+def getExtOrIntegerDefault(name) {
+  return rootProject.ext.has(name) ? rootProject.ext.get(name) : (project.properties['QuickArgon2_' + name]).toInteger()
 }
 
-if(!found){
-  // Node's module resolution algorithm searches up to the root directory,
-  // after which the base path will be null
-  while (basePath) {
-    nodeModulesDir = Paths.get(basePath.toString(), "node_modules")
-    reactNativeDir = Paths.get(nodeModulesDir.toString(), "react-native/android")
-    if (nodeModulesDir.toFile().exists() && reactNativeDir.toFile().exists()) {
-      found = true
-      break;
-    }
-    basePath = basePath.getParent()
-  }
+def reactNativeArchitectures() {
+    def value = project.getProperties().get("reactNativeArchitectures")
+    return value ? value.split(",") : ["armeabi-v7a", "x86", "x86_64", "arm64-v8a"]
 }
 
-if(!found) {
-    throw new GradleException(
-            "${project.name}: unable to locate React Native android sources. " +
-                    "Ensure you have you installed React Native as a dependency in your project and try again.")
-}
-
-def nodeModulesPath = nodeModulesDir.toString().replace("\\", "/")
-def reactNativePath = reactNativeDir.toString().replace("\\", "/")
-
+def reactProperties = new Properties()
+file("$nodeModules/react-native/ReactAndroid/gradle.properties").withInputStream { reactProperties.load(it) }
 
 android {
-  compileSdkVersion getExtOrDefault('compileSdkVersion', 28)
+  compileSdkVersion getExtOrIntegerDefault('compileSdkVersion')
+  buildToolsVersion getExtOrDefault('buildToolsVersion')
+  ndkVersion getExtOrDefault('ndkVersion')
+
+  buildFeatures {
+    prefab true
+  }
 
   defaultConfig {
-    minSdkVersion getExtOrDefault('minSdkVersion', 16)
-    targetSdkVersion getExtOrDefault('targetSdkVersion', 28)
-
+    minSdkVersion 21
+    targetSdkVersion getExtOrIntegerDefault('targetSdkVersion')
+    versionCode 1
+    versionName "1.0"
     externalNativeBuild {
       cmake {
-        cppFlags "-fexceptions", "-frtti", "-std=c++1y", "-DONANDROID"
-        abiFilters 'x86', 'x86_64', 'armeabi-v7a', 'arm64-v8a'
-        arguments '-DANDROID_STL=c++_shared', "-DNODE_MODULES_DIR=${nodeModulesPath}"
+        cppFlags "-fexceptions", "-frtti", "-std=c++1y", "-DONANDROID", "-DANDROID"
+        arguments '-DANDROID_STL=c++_shared',
+                  "-DNODE_MODULES_DIR=${nodeModules}"
       }
+    }
+    ndk {
+      abiFilters (*reactNativeArchitectures())
     }
   }
 
+  externalNativeBuild {
+    cmake {
+      path "CMakeLists.txt"
+    }
+  }
+
+  packagingOptions {
+    excludes = [
+            "**/libc++_shared.so",
+            "**/libfbjni.so",
+            "**/libreactnativejni.so",
+            "**/libjsi.so",
+            "**/libreact_nativemodule_core.so",
+            "**/libturbomodulejsijni.so",
+            "**/MANIFEST.MF",
+            ""
+    ]
+    doNotStrip '**/*.so'
+  }
+
+  buildTypes {
+    debug {
+      packagingOptions {
+        doNotStrip '**/*.so'
+      }
+      minifyEnabled false
+      debuggable true
+      jniDebuggable true
+      renderscriptDebuggable true
+    }
+
+    release {
+      minifyEnabled false
+    }
+  }
+  lintOptions {
+    disable 'GradleCompatible'
+  }
   compileOptions {
     sourceCompatibility JavaVersion.VERSION_1_8
     targetCompatibility JavaVersion.VERSION_1_8
   }
 
-  lintOptions{
-    abortOnError false
-    disable 'GradleCompatible'
-  }
-
-  externalNativeBuild {
-     cmake {
-          path "./CMakeLists.txt"
-      }
-  }
-
-  packagingOptions {
-    excludes = ["**/libc++_shared.so","**/libjsi.so","**/libreactnativejni.so","META-INF/MANIFEST.MF"]
-  }
-
-  configurations {
-    extractJNI
+  buildFeatures {
+    prefab true
   }
 }
 
 repositories {
   mavenCentral()
-  mavenLocal()
   google()
-
-  maven {
-    url reactNativePath
-    name 'React Native sources'
-  }
 }
 
 dependencies {
-  //noinspection GradleDynamicVersion
-  implementation 'com.facebook.react:react-native:+'
-
-  def rnAAR = fileTree(reactNativePath).matching({ it.include "**/**/*.aar" }).singleFile
-  extractJNI(files(rnAAR))
-}
-
-def extracted = false;
-task extractJNIFiles {
-  if (extracted) return
-  doLast {
-    configurations.extractJNI.files.each {
-      def file = it.absoluteFile
-
-      copy {
-        from zipTree(file)
-        into "$buildDir/$file.name"
-        include "jni/**/*"
-      }
-      extracted = true;
-    }
-  }
-}
-
-// Extract JNI files as soon as first task is added
-tasks.whenTaskAdded { task ->
-  task.dependsOn(extractJNIFiles);
+  implementation "com.facebook.react:react-android:"
+  implementation "com.facebook.react:hermes-android:"
 }
