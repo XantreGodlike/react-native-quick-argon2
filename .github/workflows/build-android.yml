@@ -1,0 +1,52 @@
+name: Build Android
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/build-android.yml'
+      - 'android/**'
+      - 'cpp/**'
+      - 'argon2/**'
+      - 'example/android/**'
+      - 'yarn.lock'
+      - 'example/package-lock.json'
+  pull_request:
+    paths:
+      - '.github/workflows/build-android.yml'
+      - 'android/**'
+      - 'cpp/**'
+      - 'argon2/**'
+      - 'example/android/**'
+      - 'yarn.lock'
+      - 'example/package-lock.json'
+
+jobs:
+  build_example:
+    name: Build Android Example App
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup JDK 11
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
+
+      - name: Install node_modules
+        run: npm install --frozen-lockfile
+      - name: Install node_modules for example/
+        run: npm install --frozen-lockfile --cwd example
+
+      - name: Restore Gradle cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+      - name: Run Gradle Build for example/android/
+        run: cd example/android && ./gradlew assembleDebug --build-cache && cd ../..

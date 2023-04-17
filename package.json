@@ -14,9 +14,11 @@
     "android",
     "ios",
     "cpp",
-    "react-native-jsi-template.podspec",
+    "argon2",
+    "react-native-quick-argon2.podspec",
     "!lib/typescript/example",
     "!android/build",
+    "!android/.cxx",
     "!ios/build",
     "!**/__tests__",
     "!**/__fixtures__",
@@ -28,22 +30,22 @@
     "lint": "eslint \"**/*.{js,ts,tsx}\"",
     "prepare": "git submodule update --init --recursive && bob build",
     "release": "release-it",
-    "example": "yarn --cwd example",
+    "example": "nr --cwd example",
     "pods": "cd example && pod-install --quiet",
-    "bootstrap": "yarn example && yarn && yarn pods"
+    "bootstrap": "nr example && nr && nr pods"
   },
   "keywords": [
     "react-native",
     "ios",
     "android"
   ],
-  "repository": "https://github.com/ammarahm-ed/react-native-jsi-template",
-  "author": "ammarahm-ed <ammarahmed6506@gmail.com> (https://github.com/ammarahm-ed)",
+  "repository": "https://github.com/XantreGodlike/react-native-quick-argon2",
+  "author": "XantreGodlike <valerik007.vs@gmail.com> (https://github.com/ammarahm-ed)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/ammarahm-ed/react-native-jsi-template/issues"
+    "url": "https://github.com/XantreGodlike/react-native-quick-argon2/issues"
   },
-  "homepage": "https://github.com/ammarahm-ed/react-native-jsi-template#readme",
+  "homepage": "https://github.com/XantreGodlike/react-native-quick-argon2#readme",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   },
@@ -64,15 +66,16 @@
     "prettier": "^2.0.5",
     "react": "^18.2.0",
     "react-native": "^0.71.6",
-    "react-native-builder-bob": "^0.18.0",
+    "react-native-builder-bob": "^0.21.0",
     "release-it": "^14.2.2",
-    "typescript": "^4.1.3"
+    "typescript": "^5.0.0"
   },
   "peerDependencies": {
     "react": "*",
     "react-native": ">=0.71.0",
     "react-native-quick-base64": "^2.0.5",
-    "react-native-quick-crypto": "^0.6.1"
+    "react-native-quick-crypto": "^0.6.1",
+    "@craftzdog/react-native-buffer": "^6.0.0"
   },
   "jest": {
     "preset": "react-native",
@@ -146,5 +149,8 @@
         }
       ]
     ]
+  },
+  "dependencies": {
+    "@phc/format": "^1.0.0"
   }
 }

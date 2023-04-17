@@ -17,6 +17,7 @@ export type Options = {
   version?: number;
   // raw?: boolean;
   secret?: ArrayBuffer;
+  raw?: boolean;
   associatedData?: ArrayBuffer;
 } & (
   | {
@@ -56,9 +57,4 @@ export interface OptionLimits {
 export type NativeHash = (
   plain: ArrayBuffer,
   options: OptionsNative
-) => Promise<Uint8Array>;
-
-export type JsHash = (
-  plain: string | ArrayBuffer,
-  options?: Options
-) => Promise<Uint8Array>;
+) => Promise<ArrayBuffer>;

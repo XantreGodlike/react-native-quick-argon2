@@ -40,7 +40,7 @@ class Argon2CppAdapter : public jni::HybridClass<Argon2CppAdapter> {
         if (runtime) {
             install(*runtime, jsCallInvoker);
         }
-        // if runtime was nullptr, QuickCrypto will not be installed. This
+        // if runtime was nullptr, QuickArgon2 will not be installed. This
         // should only happen while Remote Debugging (Chrome), but will be weird
         // either way.
     }

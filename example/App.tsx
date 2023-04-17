@@ -69,7 +69,7 @@ function App(): JSX.Element {
       <Button
         title="bebe"
         onPress={() => {
-          hash('bebe').then(buf => console.log(new Uint8Array(buf)));
+          hash('bebe').then(console.log);
         }}
       />
       <StatusBar
