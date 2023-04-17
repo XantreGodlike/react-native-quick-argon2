@@ -31,6 +31,8 @@ Run the example app for more.
 
 ## Thanks to these libraries & their authors:
 
+JSI Workflows from react-native-mmkv
+
 The initial work done by authors of the following libraries has helped a lot in writing the blog and keeping this repo updated.
 
 - [react-native-mmkv](https://github.com/mrousavy/react-native-mmkv/)
