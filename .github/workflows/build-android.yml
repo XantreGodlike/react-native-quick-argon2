@@ -4,14 +4,6 @@ on:
   push:
     branches:
       - main
-    paths:
-      - '.github/workflows/build-android.yml'
-      - 'android/**'
-      - 'cpp/**'
-      - 'argon2/**'
-      - 'example/android/**'
-      - 'yarn.lock'
-      - 'example/package-lock.json'
   pull_request:
     paths:
       - '.github/workflows/build-android.yml'

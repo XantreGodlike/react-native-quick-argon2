@@ -4,11 +4,6 @@ on:
   push:
     branches:
       - main
-    paths:
-      - '.github/workflows/validate-android.yml'
-      - 'android/**'
-      - 'argon2/**'
-      - '.editorconfig'
   pull_request:
     paths:
       - '.github/workflows/validate-android.yml'

@@ -4,13 +4,6 @@ on:
   push:
     branches:
       - main
-    paths:
-      - '.github/workflows/build-ios.yml'
-      - 'cpp/**'
-      - 'ios/**'
-      - '*.podspec'
-      - 'example/ios/**'
-      - 'argon2/**'
   pull_request:
     paths:
       - '.github/workflows/build-ios.yml'
@@ -29,7 +22,6 @@ jobs:
         working-directory: example/ios
     steps:
       - uses: actions/checkout@v2
-
 
       - name: Install node_modules
         run: npm install --frozen-lockfile --cwd ../..
