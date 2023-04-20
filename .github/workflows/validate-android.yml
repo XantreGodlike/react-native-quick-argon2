@@ -1,10 +1,15 @@
 name: Validate Android
 
-# This workflow is not working. It is just a draft.
 on:
   push:
     branches:
-      - never
+      - main
+  pull_request:
+    paths:
+      - '.github/workflows/validate-android.yml'
+      - 'android/**'
+      - 'argon2/**'
+      - '.editorconfig'
 
 jobs:
   lint:
