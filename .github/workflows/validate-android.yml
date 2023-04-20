@@ -1,15 +1,10 @@
 name: Validate Android
 
+# This workflow is not working. It is just a draft.
 on:
   push:
     branches:
-      - main
-  pull_request:
-    paths:
-      - '.github/workflows/validate-android.yml'
-      - 'android/**'
-      - 'argon2/**'
-      - '.editorconfig'
+      - never
 
 jobs:
   lint:
@@ -19,7 +14,7 @@ jobs:
       run:
         working-directory: ./example/android
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Setup JDK 11
         uses: actions/setup-java@v1
@@ -29,21 +24,13 @@ jobs:
       - name: Get yarn cache directory path
         id: yarn-cache-dir-path
         run: echo "::set-output name=dir::$(yarn cache dir)"
-      - name: Restore node_modules from cache
-        uses: actions/cache@v2
-        id: yarn-cache
-        with:
-          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-yarn-
       - name: Install node_modules
-        run: yarn install --frozen-lockfile --cwd ../..
+        run: npm install --prefix ../..
       - name: Install node_modules for example/
-        run: yarn install --frozen-lockfile --cwd ..
+        run: npm install --prefix ..
 
       - name: Restore Gradle cache
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: |
             ~/.gradle/caches
@@ -57,12 +44,12 @@ jobs:
       - name: Parse Gradle Lint Report
         uses: yutailang0119/action-android-lint@v1.0.2
         with:
-          xml_path: example/android/build/reports/lint-results.xml
+          xml_path: build/reports/lint-results.xml
   # ktlint:
   #   name: Kotlin Lint
   #   runs-on: ubuntu-latest
   #   steps:
-  #     - uses: actions/checkout@v2
+  #     - uses: actions/checkout@v3
   #     - name: Run KTLint
   #       uses: mrousavy/action-ktlint@v1.7
   #       with:
