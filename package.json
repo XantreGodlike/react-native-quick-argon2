@@ -51,6 +51,7 @@
   },
   "devDependencies": {
     "@commitlint/config-conventional": "^11.0.0",
+    "@craftzdog/react-native-buffer": "^6.0.5",
     "@react-native-community/eslint-config": "^2.0.0",
     "@release-it/conventional-changelog": "^2.0.0",
     "@types/jest": "^26.0.0",
@@ -67,15 +68,16 @@
     "react": "^18.2.0",
     "react-native": "^0.71.6",
     "react-native-builder-bob": "^0.20.4",
+    "react-native-quick-crypto": "^0.6.1",
     "release-it": "^14.2.2",
     "typescript": "^5.0.0"
   },
   "peerDependencies": {
+    "@craftzdog/react-native-buffer": "^6.0.0",
     "react": "*",
     "react-native": ">=0.71.0",
     "react-native-quick-base64": "^2.0.5",
-    "react-native-quick-crypto": "^0.6.1",
-    "@craftzdog/react-native-buffer": "^6.0.0"
+    "react-native-quick-crypto": "^0.6.1"
   },
   "jest": {
     "preset": "react-native",
