@@ -26,9 +26,6 @@ jobs:
         with:
           java-version: 11
 
-      - name: Get yarn cache directory path
-        id: yarn-cache-dir-path
-        run: echo "::set-output name=dir::$(yarn cache dir)"
       - name: Install node_modules
         run: npm install --prefix ../..
       - name: Install node_modules for example/
