@@ -31,20 +31,14 @@ set(CMAKE_C_EXTENSIONS OFF)
 include(CheckCXXCompilerFlag)
 check_cxx_compiler_flag("-march=native" COMPILER_SUPPORTS_MARCH_NATIVE)
 
-if(COMPILER_SUPPORTS_MARCH_NATIVE)
-    set(ARGON2_IMPL ../argon2/src/opt.c)
-    add_definitions(-march=native)
-else()
-    set(ARGON2_IMPL ../argon2/src/ref.c)
-endif()
-
 set(ARGON2_SRC
     ../argon2/src/argon2.c
     ../argon2/src/core.c
     ../argon2/src/blake2/blake2b.c
     ../argon2/src/thread.c
     ../argon2/src/encoding.c
-    ${ARGON2_IMPL}
+    # for some reason other argon2 for android uses ref file
+    ../argon2/src/ref.c
 )
 
 add_library(argon2 STATIC ${ARGON2_SRC})
