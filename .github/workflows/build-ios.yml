@@ -17,14 +17,11 @@ jobs:
   build:
     name: Build iOS Example App
     runs-on: macos-latest
-    defaults:
-      run:
-        working-directory: example/ios
     steps:
       - uses: actions/checkout@v3
 
       - name: Install node_modules
-        run: npm install --frozen-lockfile --cwd ../..
+        run: npm install
       - name: Install node_modules for example/
         run: npm --prefix ./example install
 
