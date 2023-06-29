@@ -16,7 +16,7 @@ on:
 jobs:
   build:
     name: Build iOS Example App
-    runs-on: macOS-latest
+    runs-on: macos-latest
     defaults:
       run:
         working-directory: example/ios
@@ -26,7 +26,7 @@ jobs:
       - name: Install node_modules
         run: npm install --frozen-lockfile --cwd ../..
       - name: Install node_modules for example/
-        run: yarn install --frozen-lockfile --cwd ..
+        run: npm --prefix ./example install
 
       - name: Restore buildcache
         uses: mikehardy/buildcache-action@v1
