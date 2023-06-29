@@ -10,13 +10,14 @@ declare global {
 }
 
 const PACKAGE_NAME = 'react-native-quick-argon2';
+const MODULE_NAME = "QuickArgon2"
 
 // Check if the constructor exists. If not, try installing the JSI bindings.
 if (global.__QuickArgon2Proxy == null) {
-  // Get the native FastCrypto ReactModule
-  const FastCryptoModule = NativeModules.QuickArgon2;
-  if (FastCryptoModule == null) {
-    let message = `Failed to install ${PACKAGE_NAME}: The native 'FastCrypto' Module could not be found.`;
+  // Get the native module ReactModule
+  const module = NativeModules[MODULE_NAME]
+  if (module == null) {
+    let message = `Failed to install ${PACKAGE_NAME}: The native '${MODULE_NAME}' Module could not be found.`;
     message += `
 * Make sure ${PACKAGE_NAME} is correctly autolinked (run \`npx react-native config\` to verify)`;
     if (Platform.OS === 'ios' || Platform.OS === 'macos') {
@@ -45,14 +46,14 @@ if (global.__QuickArgon2Proxy == null) {
   }
 
   // Check if we are running on-device (JSI)
-  if (global.nativeCallSyncHook == null || FastCryptoModule.install == null) {
+  if (global.nativeCallSyncHook == null || module.install == null) {
     throw new Error(
       `Failed to install ${PACKAGE_NAME}: React Native is not running on-device. FastCrypto can only be used when synchronous method invocations (JSI) are possible. If you are using a remote debugger (e.g. Chrome), switch to an on-device debugger (e.g. Flipper) instead.`
     );
   }
 
   // Call the synchronous blocking install() function
-  const result = FastCryptoModule.install();
+  const result = module.install();
   if (result !== true)
     throw new Error(
       `Failed to install ${PACKAGE_NAME}: The native FastCrypto Module could not be installed! Looks like something went wrong when installing JSI bindings: ${result}`

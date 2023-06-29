@@ -43,6 +43,8 @@ target 'QuickArgon2Example' do
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
 
+  pod 'react-native-quick-argon2', :path => '../..'
+
   target 'QuickArgon2ExampleTests' do
     inherit! :complete
     # Pods for testing
