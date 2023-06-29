@@ -68,7 +68,7 @@
     "react-native": "^0.71.6",
     "react-native-builder-bob": "^0.20.4",
     "react-native-quick-crypto": "^0.6.1",
-    "typescript": "^5.0.0"
+    "typescript": "^5.1.6"
   },
   "peerDependencies": {
     "@craftzdog/react-native-buffer": "^6.0.0",
