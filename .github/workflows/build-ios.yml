@@ -54,8 +54,8 @@ jobs:
         run: "cd example/ios; set -o pipefail && xcodebuild \
           CC=clang CPLUSPLUS=clang++ LD=clang LDPLUSPLUS=clang++ \
           -derivedDataPath build -UseModernBuildSystem=YES \
-          -workspace MmkvExample.xcworkspace \
-          -scheme MmkvExample \
+          -workspace QuickArgon2Example.xcworkspace \
+          -scheme QuickArgon2Example \
           -sdk iphonesimulator \
           -configuration Debug \
           -destination 'platform=iOS Simulator,name=iPhone 11 Pro' \
