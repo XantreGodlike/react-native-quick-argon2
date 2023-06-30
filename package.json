@@ -51,6 +51,7 @@
     "registry": "https://registry.npmjs.org/"
   },
   "devDependencies": {
+    "@antfu/ni": "^0.21.4",
     "@changesets/cli": "^2.26.2",
     "@craftzdog/react-native-buffer": "^6.0.5",
     "@react-native-community/eslint-config": "^2.0.0",
