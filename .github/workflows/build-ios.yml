@@ -51,7 +51,7 @@ jobs:
       - name: Install xcpretty
         run: gem install xcpretty
       - name: Build App
-        run: "set -o pipefail && xcodebuild \
+        run: "cd example/ios; set -o pipefail && xcodebuild \
           CC=clang CPLUSPLUS=clang++ LD=clang LDPLUSPLUS=clang++ \
           -derivedDataPath build -UseModernBuildSystem=YES \
           -workspace MmkvExample.xcworkspace \
