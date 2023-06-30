@@ -29,10 +29,11 @@
     "typescript": "tsc --noEmit",
     "lint": "eslint \"**/*.{js,ts,tsx}\"",
     "prepare": "git submodule update --init --recursive && bob build",
-    "release": "release-it",
+    "release": "changeset publish",
     "example": "nr --cwd example",
     "pods": "cd example && pod-install --quiet",
-    "bootstrap": "nr example && nr && nr pods"
+    "bootstrap": "nr example && nr && nr pods",
+    "changeset": "changeset"
   },
   "keywords": [
     "react-native",
@@ -50,6 +51,7 @@
     "registry": "https://registry.npmjs.org/"
   },
   "devDependencies": {
+    "@changesets/cli": "^2.26.2",
     "@commitlint/config-conventional": "^11.0.0",
     "@craftzdog/react-native-buffer": "^6.0.5",
     "@react-native-community/eslint-config": "^2.0.0",
