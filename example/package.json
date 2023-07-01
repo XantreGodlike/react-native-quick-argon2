@@ -10,10 +10,18 @@
     "test": "jest"
   },
   "dependencies": {
+    "@react-native-community/checkbox": "^0.5.16",
+    "@react-navigation/native": "^6.1.7",
+    "@react-navigation/native-stack": "^6.9.13",
+    "chai": "^4.3.7",
+    "events": "^3.3.0",
+    "mocha": "^10.2.0",
     "react": "18.2.0",
-    "react-native": "0.71.6",
+    "react-native": "0.71.11",
     "react-native-quick-base64": "^2.0.5",
-    "react-native-quick-crypto": "^0.6.1"
+    "react-native-quick-crypto": "^0.6.1",
+    "react-native-screens": "^3.22.0",
+    "util": "^0.12.5"
   },
   "//react-native-quick-base64": "^2.0.5",
   "//react-native-quick-crypto": "^0.6.1",
@@ -23,7 +31,9 @@
     "@babel/runtime": "^7.20.0",
     "@react-native-community/eslint-config": "^3.2.0",
     "@tsconfig/react-native": "^2.0.2",
-    "@types/jest": "^29.2.1",
+    "@types/chai": "^4.3.5",
+    "@types/jest": "^29.5.2",
+    "@types/mocha": "^10.0.1",
     "@types/react": "^18.0.24",
     "@types/react-test-renderer": "^18.0.0",
     "babel-jest": "^29.2.1",
