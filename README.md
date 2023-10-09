@@ -1,5 +1,7 @@
 # react-native-quick-argon2
 
+# work in progrss, library produces wrong results
+
 For now library is depending on react-native-quick-crypto, because for now it relies on randomBytes for salt generation. In future it will be replaced with native randomBytes implementation.
 So for now you need to install [react-native-quick-crypto](https://github.com/margelo/react-native-quick-crypto) as well.
 
